@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+
+  max-width: 2560px;
+  font-family: "Prompt", sans-serif;
+  font-weight: 300;
+
+  box-sizing: border-box;
+  outline: none;
+  user-select: text;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  background: #0e0e0e;
+  // background: white;
+
+  overflow-x: hidden;
+  ::selection {
+    background: #7d7d7d;
+    color: white;
+  }
+}
+main {
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: inherit;
+}
+
