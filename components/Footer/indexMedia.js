@@ -52,8 +52,8 @@ const Media = () => {
           </LinkMedia>
         ))}
       </LinksMedia>
-      <Copyright>{`©Copyright ${new Date().getFullYear()} Fulcrum – Full-stack mobile (iOS, Android) and web app design and development company. All Rights Reserved `}</Copyright>
-      <PrivacyPolicy href="/privacy-policy/index.html">
+      <Copyright>{`©Copyright ${new Date().getFullYear()} Fulcrum – an offshore, in-house agency from Kyiv, Ukraine. All Rights Reserved.`}</Copyright>
+      <PrivacyPolicy href="http://fulcrum.rocks/privacy-policy/index.html">
         Privacy Policy
       </PrivacyPolicy>
     </WithMedia>

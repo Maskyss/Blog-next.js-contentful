@@ -1,8 +1,19 @@
-import React, { useEffect } from "react";
-import Head from "next/head";
 import { createClient } from "contentful";
-import Post from "../components/post";
-import config from "./config.json";
+import config from "../utils/config.json";
+import React, { useState, useEffect } from "react";
+
+import { Portal } from "react-portal";
+
+import Seo from "../components/Seo";
+import Articles from "../components/Articles";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import PreloaderComponent from "../components/Preloader";
+import CookieComponent from "../components/CookieComponent";
+import Layout from '../components/Layout'
+
+const ogImg = "../static/4.jpg";
 
 // Instantiate the app client
 const client = createClient({
@@ -10,41 +21,90 @@ const client = createClient({
   accessToken: config.accessToken
 });
 
-// Our Homepage component, will receive props from contentful entries thanks to getInitialProps function below.
-function HomePage(props) {
-  useEffect(()=>{
-    console.log(props.entries.items)
+const IndexPage = props => {
+  const [preloader, setPreloader] = useState(true);
+  const [scrollToTop, setscrollToTop] = useState(false);
+  const [origin, setOrigin] = useState("");
+  const [cookie, setCookie] = useState(true);
+const [articlesArr, setArticlesArr]=useState([])
+  useEffect(() => {
+    const { body } = document;
+    console.log(props.entries.items);
+    setArticlesArr(props.entries.items);
 
-  },[])
+
+    setOrigin(window.location.origin);
+
+    body.setAttribute("style", "overflow-y:hidden");
+    window.addEventListener("scroll", _onScroll);
+    if (localStorage.getItem("cookies") !== null) {
+      setCookie(false);
+    }
+    setTimeout(() => {
+      turnOffPreloader();
+    }, 1000);
+  }, []);
+
+  const _onScroll = () => {
+    if (window.scrollY > 5) {
+      setscrollToTop(true);
+    }
+
+    if (window.scrollY < 25) {
+      setscrollToTop(false);
+    }
+  };
+
+  const turnOffPreloader = () => {
+    const { body } = document;
+
+    setTimeout(() => {
+      setPreloader(false);
+      body.setAttribute("style", "overflow-y:auto");
+    }, 500);
+  };
+  const setSessionStorage = () => {
+    localStorage.setItem("cookies", "true");
+    setCookie(false);
+  };
   return (
-    <React.Fragment>
-      <Head>
-        <title>Welcome to NextJS + Contentful by ScreamZ</title>
-        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css" />
-        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css" />
-        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css" />
-      </Head>
-      <div className="container grid-lg mt-2">
-        <div className="columns">
-          {/* {props.allPosts && props.allPosts.map(post => <Post post={post} key={post.fields.title} />)} */}
-        </div>
-      </div>
-    </React.Fragment>
-  );
-}
+    <>
+      {preloader && (
+        <Portal>
+          <PreloaderComponent />
+        </Portal>
+      )}
+      <Layout>
+        <div style={preloader ? { opacity: 0 } : {}}>
+          <Seo
+            title="Fulcrum Blog –  The Latest News, Stories from Fulcrum"
+            description="Discover the latest stories & news from Fulcrum."
+            image={ogImg}
+          />
 
-// This function will run during build time in case of static export.
-// Or will run each time a new request is made to the browser in SSR.
-// It's used to compute initial props for the component and pre-render.
-HomePage.getInitialProps = async () => {
+          <Header scrollToTop={scrollToTop} origin={origin} />
+
+          <Articles articlesArr={articlesArr}/>
+          <Footer origin={origin} />
+          {cookie && (
+            <Portal>
+              <CookieComponent
+                setSessionStorage={setSessionStorage}
+                preloader={preloader}
+              />
+            </Portal>
+          )}
+        </div>
+        </Layout>
+    </>
+  );
+};
+IndexPage.getInitialProps = async () => {
   const entries = await client.getEntries({
-    content_type: "blogPost",
-  
+    content_type: "blogPost"
   });
 
   // Inject in props of our screen component
-  return {entries };
+  return { entries };
 };
-
-// That's the default export (the page)
-export default HomePage;
+export default IndexPage;

@@ -44,9 +44,9 @@ const Footer = ({ origin }) => {
           </LinkImage>
           <MainInfo>
             <LinksFooter>
-              <LinkFooter href={`${origin}#services`}>Services</LinkFooter>
-              <LinkFooter href={`${origin}#projects`}>Projects</LinkFooter>
-              <LinkFooter href={`${origin}/about/`}>About</LinkFooter>
+              <LinkFooter href={`http://fulcrum.rocks/#services`}>Services</LinkFooter>
+              <LinkFooter href={`http://fulcrum.rocks/#projects`}>Projects</LinkFooter>
+              <LinkFooter href={`http://fulcrum.rocks/about/`}>About</LinkFooter>
               <LinkFooter href={`${origin}/blog/`}>Blog</LinkFooter>
             </LinksFooter>
             <WithAddress>

@@ -12,9 +12,9 @@ import {
   MenuButton,
 } from './styles';
 
-import animation from '../../images/animations/Menu.json';
+import animation from '../../static/animations/Menu.json';
 
-import Logo from '../../images/Logo.svg';
+const Logo = '../../static/Logo.svg';
 
 const Header = ({ scrollToTop, origin, background, about }) => {
   const [visibilityMenu, setVisibilityMenu] = useState(false);
@@ -63,7 +63,6 @@ const Header = ({ scrollToTop, origin, background, about }) => {
         toggleMenu={() => _visibilityMenuFunc()}
         visibilityMenu={visibilityMenu}
         menuAnimation={menuAnimation}
-        about
       />
 
       <HeaderCustom
@@ -82,13 +81,13 @@ const Header = ({ scrollToTop, origin, background, about }) => {
           <img src={Logo} alt="logo" />
         </LinkImage>
         <LinksHeader>
-          <LinkHeader href={`${origin}#services`}>Services</LinkHeader>
-          <LinkHeader href={`${origin}#projects`}>Projects</LinkHeader>
-          <LinkHeader href={`${origin}/about/`}>About</LinkHeader>
+          <LinkHeader href={`https://fulcrum.rocks/#services`}>Services</LinkHeader>
+          <LinkHeader href={`https://fulcrum.rocks/#projects`}>Projects</LinkHeader>
+          <LinkHeader href={`https://fulcrum.rocks//about/`}>About</LinkHeader>
           <LinkHeader href={`${origin}/blog/`}>Blog</LinkHeader>
         </LinksHeader>
         <DivEstimate>
-          <ButtonEstimate href={about ? `#contact` : `${origin}#contact`}>
+          <ButtonEstimate href={`https://fulcrum.rocks/#contact`}>
             Estimate
           </ButtonEstimate>
         </DivEstimate>

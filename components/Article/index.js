@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { graphql } from 'gatsby';
 import { Portal } from 'react-portal';
-import Layout from '../Layout';
 import Seo from '../Seo';
 import Header from '../Header';
 import Footer from '../Footer';
 import BlogComponent from '../Blog';
+import CookieComponent from '../components/CookieComponent';
 
 import { Container, ImageLink, BorderShared } from './styles';
 
@@ -159,7 +158,6 @@ const Article = props => {
           <PreloaderComponent />
         </Portal>
       )}
-      <Layout>
         <div style={preloader ? { opacity: 0 } : {}}>
           <Seo image={image} title={seoTitle} description={description} />
 
@@ -197,7 +195,6 @@ const Article = props => {
             </Portal>
           )}
         </div>
-      </Layout>
     </>
   );
 };
