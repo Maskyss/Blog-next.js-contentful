@@ -1,7 +1,7 @@
+
+import React, { useState, useEffect } from "react";
 import { createClient } from "contentful";
 import config from "../utils/config.json";
-import React, { useState, useEffect } from "react";
-
 import { Portal } from "react-portal";
 
 import Seo from "../components/Seo";
@@ -11,7 +11,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PreloaderComponent from "../components/Preloader";
 import CookieComponent from "../components/CookieComponent";
-import Layout from '../components/Layout'
+import Layout from "../components/Layout";
 
 const ogImg = "../static/4.jpg";
 
@@ -21,17 +21,14 @@ const client = createClient({
   accessToken: config.accessToken
 });
 
-const IndexPage = props => {
+const App = props => {
   const [preloader, setPreloader] = useState(true);
   const [scrollToTop, setscrollToTop] = useState(false);
   const [origin, setOrigin] = useState("");
   const [cookie, setCookie] = useState(true);
-const [articlesArr, setArticlesArr]=useState([])
+  const [articlesArr, setArticlesArr] = useState([]);
   useEffect(() => {
     const { body } = document;
-    console.log(props.entries.items);
-    setArticlesArr(props.entries.items);
-
 
     setOrigin(window.location.origin);
 
@@ -42,7 +39,9 @@ const [articlesArr, setArticlesArr]=useState([])
     }
     setTimeout(() => {
       turnOffPreloader();
-    }, 1000);
+    }, 1500);
+    setArticlesArr(props.entries.items);
+
   }, []);
 
   const _onScroll = () => {
@@ -61,20 +60,20 @@ const [articlesArr, setArticlesArr]=useState([])
     setTimeout(() => {
       setPreloader(false);
       body.setAttribute("style", "overflow-y:auto");
-    }, 500);
+    }, 2000);
   };
   const setSessionStorage = () => {
     localStorage.setItem("cookies", "true");
     setCookie(false);
   };
   return (
-    <>
+    <div>
       {preloader && (
         <Portal>
           <PreloaderComponent />
         </Portal>
       )}
-      <Layout>
+      <Layout/>
         <div style={preloader ? { opacity: 0 } : {}}>
           <Seo
             title="Fulcrum Blog –  The Latest News, Stories from Fulcrum"
@@ -84,7 +83,7 @@ const [articlesArr, setArticlesArr]=useState([])
 
           <Header scrollToTop={scrollToTop} origin={origin} />
 
-          <Articles articlesArr={articlesArr}/>
+          <Articles articlesArr={articlesArr} />
           <Footer origin={origin} />
           {cookie && (
             <Portal>
@@ -95,11 +94,10 @@ const [articlesArr, setArticlesArr]=useState([])
             </Portal>
           )}
         </div>
-        </Layout>
-    </>
+    </div>
   );
 };
-IndexPage.getInitialProps = async () => {
+App.getInitialProps = async () => {
   const entries = await client.getEntries({
     content_type: "blogPost"
   });
@@ -107,4 +105,6 @@ IndexPage.getInitialProps = async () => {
   // Inject in props of our screen component
   return { entries };
 };
-export default IndexPage;
+
+
+export default App;

@@ -86,7 +86,7 @@ const Articles = styled.div`
   }
 `;
 
-const Article = styled.a`
+const Article = styled.div`
   display: flex;
   flex-direction: column;
   padding: 4rem;

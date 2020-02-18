@@ -1,113 +1,39 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
+import React from "react";
+import NextHead from "next/head";
 
-const favicon = '../../static/logoMini.png';
+const favicon = "../../static/logoMini.png";
 
-function Seo({ description, lang, meta, keywords, title, image, url = '' }) {
-
-
-  const metaDescription = description ;
+function Seo({ description, title, image, url = "" }) {
 
   return (
-    <Helmet
-      htmlAttributes={{
-        lang,
-      }}
-      title={title}
-      titleTemplate={`%s `}
-      meta={[
-        {
-          property: 'og:locale',
-          content: 'en_US',
-        },
-        {
-          property: 'og:type',
-          content: 'website',
-        },
-        {
-          property: 'og:title',
-          content: title,
-        },
-        {
-          property: 'og:description',
-          content: metaDescription,
-        },
-        {
-          property: 'og:site_name',
-          content: title,
-        },
-        {
-          property: 'og:image',
-          content: image,
-        },
-        // {
-        //   property: 'og:url',
-        //   content: url,
-        // },
-        {
-          name: 'description',
-          content: metaDescription,
-        },
-
-        {
-          name: 'twitter:card',
-          content: 'summary',
-        },
-
-        {
-          name: 'twitter:title',
-          content: title,
-        },
-        {
-          name: 'twitter:image',
-          content: image,
-        },
-        {
-          name: 'twitter:description',
-          content: metaDescription,
-        },
-      ]
-        .concat(
-          keywords.length > 0
-            ? {
-                name: 'keywords',
-                content: keywords.join(', '),
-              }
-            : [],
-        )
-        .concat(meta)}
-    >
-      {/* <script>
-        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-            j.async=true;
-            j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-            f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-5WT3C9R')`}
-      </script> */}
+    <NextHead>
+      <meta charSet="UTF-8" />
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      />
+      <link rel="icon" sizes="192x192" href={favicon} />
+      <link rel="apple-touch-icon" href={favicon} />
+      <link rel="mask-icon" href={favicon} color="#49B882" />
       <link rel="icon" href={favicon} />
-    </Helmet>
+      <meta name="fb:app_id" content="1390387391030778" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={url} />
+      <meta property="og:title" content={title} />{" "}
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:description" content={description} />
+      <meta name="twitter:site" content={url} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content={image} />
+      <meta property="og:image" content={image} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+    </NextHead>
   );
 }
 
-Seo.defaultProps = {
-  lang: 'en',
-  meta: [],
-  keywords: [],
-};
 
-Seo.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      property: PropTypes.string,
-      content: PropTypes.string,
-    }),
-  ),
-  keywords: PropTypes.arrayOf(PropTypes.string),
-  title: PropTypes.string,
-};
 
 export default Seo;

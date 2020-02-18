@@ -1,9 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import encodeUrl from 'encodeurl';
+
 import {
   Container,
   Article,
   Image,
-  BorderImage,
   Title,
   Subtitle,
   ArticlePrim
@@ -41,61 +43,60 @@ const Articles = ({ articlesArr }) => {
       }
     });
     setArray(arr);
-  }, []);
+    console.log(articlesArr);
+  }, [articlesArr]);
   return (
     <Container>
       {articlesArr.map((key, i) => {
-        const { href, image, title, subtitle, date, category } = key;
-        console.log(href, image, title, subtitle, date, category);
-        // return mobile ? (
-        //   i % 2 === 0 ? (
-        //     <Article>
-        //       <Link to={`/blog/${href}`}>
-        //         <Image src={image} />
-        //         <Title>{title}</Title>
-        //         <Subtitle>{subtitle}</Subtitle>
-        //       </Link>
-        //     </Article>
-        //   ) : (
-        //     <ArticlePrim
-        //       key={i}
-        //       to={`/blog/${href}`}
-        //       target="_blank"
-        //       rel="noopener noreferrer"
-        //     >
-        //       <Blog>Blog</Blog>
-        //       <Tit>{title}</Tit>
-        //       <Sub className="subtitle">{subtitle}</Sub>
-        //       <div style={{ display: 'flex', margin: 'auto 0 0' }}>
-        //         <Category className="subtitle">{category}</Category>
-        //         <Date className="subtitle">{date}</Date>
-        //       </div>
-        //     </ArticlePrim>
-        //   )
-        // ) : array[i] === 0 ? (
-        //   <Article>
-        //     <Link to={`/blog/${href}`}>
-        //       <Image src={image} />
-        //       <Title>{title}</Title>
-        //       <Subtitle>{subtitle}</Subtitle>
-        //     </Link>
-        //   </Article>
-        // ) : (
-        //   <ArticlePrim
-        //     key={i}
-        //     to={`/blog/${href}`}
-        //     target="_blank"
-        //     rel="noopener noreferrer"
-        //   >
-        //     <Blog>Blog</Blog>
-        //     <Tit>{title}</Tit>
-        //     <Sub className="subtitle">{subtitle}</Sub>
-        //     <div style={{ display: 'flex', margin: 'auto 0 0' }}>
-        //       <Category className="subtitle">{category}</Category>
-        //       <Date className="subtitle">{date}</Date>
-        //     </div>
-        //   </ArticlePrim>
-        // );
+        const { href, image, title, subtitle, date, category } = key.fields;
+
+        return mobile ? (
+          i % 2 === 0 ? (
+            <Link href={encodeUrl(`/${href}`)} key={i}>
+              <Article>
+                <>
+                  <Image src={image.fields.file.url} />
+                  <Title>{title}</Title>
+                  <Subtitle>{subtitle}</Subtitle>
+                </>
+              </Article>
+            </Link>
+          ) : (
+            <Link key={i} href={encodeUrl(`/${href}`)} >
+              <ArticlePrim>
+                <Blog>Blog</Blog>
+                <Tit>{title}</Tit>
+                <Sub className="subtitle">{subtitle}</Sub>
+                <div style={{ display: "flex", margin: "auto 0 0" }}>
+                  <Category className="subtitle">{category}</Category>
+                  <Date className="subtitle">{date}</Date>
+                </div>
+              </ArticlePrim>
+            </Link>
+          )
+        ) : array[i] === 0 ? (
+          <Link href={encodeUrl(`/${href}`)} key={i}>
+            <Article>
+              <>
+                <Image src={image.fields.file.url} />
+                <Title>{title}</Title>
+                <Subtitle>{subtitle}</Subtitle>
+              </>
+            </Article>
+          </Link>
+        ) : (
+          <Link key={i} href={encodeUrl(`/${href}`)} >
+            <ArticlePrim>
+              <Blog>Blog</Blog>
+              <Tit>{title}</Tit>
+              <Sub className="subtitle">{subtitle}</Sub>
+              <div style={{ display: "flex", margin: "auto 0 0" }}>
+                <Category className="subtitle">{category}</Category>
+                <Date className="subtitle">{date}</Date>
+              </div>
+            </ArticlePrim>
+          </Link>
+        );
       })}
     </Container>
   );

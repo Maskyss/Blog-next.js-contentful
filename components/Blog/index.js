@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Fade from 'react-reveal/Fade';
+// import Fade from 'react-reveal/Fade';
 
 import {
   Container,
@@ -43,7 +43,7 @@ const BlogComponent = ({ turnOffPreloader }) => {
 
   return (
     <Container id="blog">
-      <Fade>
+      {/* <Fade> */}
         <Header>
           <MainTitle>Blog</MainTitle>
         </Header>
@@ -66,7 +66,7 @@ const BlogComponent = ({ turnOffPreloader }) => {
             </Article>
           ))}
         </Articles>
-      </Fade>
+      {/* </Fade> */}
     </Container>
   );
 };

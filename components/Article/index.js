@@ -5,6 +5,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import BlogComponent from '../Blog';
 import CookieComponent from '../components/CookieComponent';
+import config from "../../utils/config.json";
 
 import { Container, ImageLink, BorderShared } from './styles';
 
@@ -13,6 +14,12 @@ const facebook = '../../static/shareSvg/Facebook.svg';
 const mailto = '../../static/shareSvg/Mailto.svg';
 const telegram = '../../static/shareSvg/Telegram.svg';
 const whatsapp = '../../static/shareSvg/WhatsApp.png';
+
+// Instantiate the app client
+const client = createClient({
+  space: config.space,
+  accessToken: config.accessToken
+});
 
 const Article = props => {
   const [scrollToTop, setscrollToTop] = useState(false);
@@ -198,5 +205,12 @@ const Article = props => {
     </>
   );
 };
+Article.getInitialProps = async () => {
+  const entries = await client.getEntries({
+    content_type: "blogPost"
+  });
 
+  // Inject in props of our screen component
+  return { entries };
+};
 export default Article;

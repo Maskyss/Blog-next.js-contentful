@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import GlobalStyle from "./styles";
 
 
-const Layout = ({ children }) => {
+const Layout = () => {
   return (
     <>
       <GlobalStyle />
@@ -19,20 +19,18 @@ const Layout = ({ children }) => {
         />
       </noscript>
 
-      <main>{children}</main>
-      <script
+    
+      {/* <script
         type="text/javascript"
         id="hs-script-loader"
         async
         defer
         src="//js.hs-scripts.com/6956063.js"
-      />
+      /> */}
     </>
   );
 };
 
-Layout.propTypes = {
-  children: PropTypes.node.isRequired
-};
+
 
 export default Layout;

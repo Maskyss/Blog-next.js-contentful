@@ -30,6 +30,7 @@ const Container = styled.div`
 `;
 
 const Article = styled.div`
+cursor:pointer;
   width: 60%;
   margin: 0 1%;
   margin-bottom: 5rem;
@@ -43,6 +44,7 @@ const Article = styled.div`
 `;
 const ArticlePrim = styled(Art)`
   margin: 0 1%;
+  cursor:pointer;
   width: 30%;
   @media ${themes.device.laptopL} {
     width: 35%;
