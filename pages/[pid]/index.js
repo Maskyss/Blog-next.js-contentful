@@ -5,7 +5,7 @@ import { Portal } from "react-portal";
 import Seo from "../../components/Seo";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-// import BlogComponent from '../components/Blog';
+import BlogComponent from "../../components/Blog";
 import CookieComponent from "../../components/CookieComponent";
 import PreloaderComponent from "../../components/Preloader";
 
@@ -18,6 +18,10 @@ import {
   BorderShared
 } from "../../components/Article/styles";
 import Layout from "../../components/Layout";
+
+import options from '../../utils/contentful'
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
 
 const twitter = "../../static/shareSvg/Twitter.svg";
 const facebook = "../../static/shareSvg/Facebook.svg";
@@ -48,15 +52,17 @@ const App = props => {
 
   const [seoTitle, setseoTitle] = useState("");
   const [title, settitle] = useState("");
+  const [url, seturl] = useState("");
 
   const [description, setdescription] = useState("");
 
   useEffect(() => {
-    console.log(pid, "pid");
+    seturl(window.location.href)
     if (localStorage.getItem("cookies") !== null) {
       setCookie(false);
     }
     const articles = props.entries.items;
+
     const href = pid;
     sethrefLoad(pid);
     const { body } = document;
@@ -95,6 +101,8 @@ const App = props => {
     }
     setimage("http://" + str);
 
+  //  setDangerousHtml(
+     setDangerousHtml(documentToHtmlString(bodyArticle))
     // const obj = Object.entries(JSON.parse(value)).map(key => {
     //   const newKey = key[0].toString().replace(/(-[0-9]*)/, '');
 
@@ -188,20 +196,17 @@ const App = props => {
   };
   return (
     <>
-      {preloader && (
-        <Portal>
-          <PreloaderComponent />
-        </Portal>
-      )}
-      <Layout/>
+      <div>
+        <Layout />
         <div style={preloader ? { opacity: 0 } : {}}>
-          <Seo image={image} title={seoTitle} description={description} />
+          <Seo image={image} title={seoTitle} description={description} url={url} />
 
           <Header scrollToTop={scrollToTop} origin={origin} />
           <Container>
             <img className="image" src={image} />
             <div className="title">{title}</div>
             <div dangerouslySetInnerHTML={{ __html: dangerousHtml }} />
+            
             <BorderShared>
               <div className="h3"> Share it in social media</div>
               <div style={{ display: "flex" }}>
@@ -221,7 +226,7 @@ const App = props => {
               </div>
             </BorderShared>
           </Container>
-          {/* <BlogComponent turnOffPreloader={turnOffPreloader} /> */}
+          <BlogComponent turnOffPreloader={turnOffPreloader} articles={props.entries.items}/>
 
           <Footer origin={origin} />
           {cookie && (
@@ -233,6 +238,12 @@ const App = props => {
             </Portal>
           )}
         </div>
+      </div>
+      {preloader && (
+        <Portal>
+          <PreloaderComponent />
+        </Portal>
+      )}
     </>
   );
 };

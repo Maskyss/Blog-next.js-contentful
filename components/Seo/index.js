@@ -1,12 +1,11 @@
 import React from "react";
-import NextHead from "next/head";
-
+import Head from 'next/head';
 const favicon = "../../static/logoMini.png";
 
 function Seo({ description, title, image, url = "" }) {
 
   return (
-    <NextHead>
+    <Head>
       <meta charSet="UTF-8" />
       <title>{title}</title>
       <meta name="description" content={description} />
@@ -30,7 +29,7 @@ function Seo({ description, title, image, url = "" }) {
       <meta property="og:image" content={image} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-    </NextHead>
+    </Head>
   );
 }
 

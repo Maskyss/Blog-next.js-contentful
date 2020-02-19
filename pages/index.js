@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { createClient } from "contentful";
 import config from "../utils/config.json";
@@ -41,7 +40,6 @@ const App = props => {
       turnOffPreloader();
     }, 1500);
     setArticlesArr(props.entries.items);
-
   }, []);
 
   const _onScroll = () => {
@@ -67,13 +65,9 @@ const App = props => {
     setCookie(false);
   };
   return (
-    <div>
-      {preloader && (
-        <Portal>
-          <PreloaderComponent />
-        </Portal>
-      )}
-      <Layout/>
+    <>
+      <div>
+        <Layout />
         <div style={preloader ? { opacity: 0 } : {}}>
           <Seo
             title="Fulcrum Blog –  The Latest News, Stories from Fulcrum"
@@ -94,7 +88,13 @@ const App = props => {
             </Portal>
           )}
         </div>
-    </div>
+      </div>{" "}
+      {preloader && (
+        <Portal>
+          <PreloaderComponent />
+        </Portal>
+      )}
+    </>
   );
 };
 App.getInitialProps = async () => {
@@ -105,6 +105,5 @@ App.getInitialProps = async () => {
   // Inject in props of our screen component
   return { entries };
 };
-
 
 export default App;

@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-// import Fade from 'react-reveal/Fade';
+import React, {  useEffect, useState } from 'react';
+import Link from "next/link";
+import encodeUrl from 'encodeurl';
 
 import {
   Container,
@@ -14,10 +15,9 @@ import {
   Date,
 } from './styles';
 
-const BlogComponent = ({ turnOffPreloader }) => {
+const BlogComponent = ({ turnOffPreloader ,articles}) => {
   const [articlesToShow, setArticlesToShow] = useState(3);
   const [selectedArticles, setSelectedArticles]= useState([])
-  const { articles } = useContext(DataContext);
 
   const sizeAndCount = {
     768: 3,
@@ -29,10 +29,10 @@ const BlogComponent = ({ turnOffPreloader }) => {
     const windowScreenCount = Object.entries(sizeAndCount).filter(
       item => item[0] >= window.screen.width,
     )[0][1];
-    const href=window.location.pathname.replace(`/blog/`,'')
+    const href=window.location.pathname.replace(`/`,'')
 
       const obj = articles.filter(key => {
-          return key.href !== href;
+          return key.fields.href !== href;
         });
     setSelectedArticles(obj.reverse());
 
@@ -49,21 +49,22 @@ const BlogComponent = ({ turnOffPreloader }) => {
         </Header>
         <Articles>
           {selectedArticles.slice(0, 3).map((key, i) => (
+            <Link key={i} href={encodeUrl(`/${key.fields.href}`)} >
+
             <Article
-              key={i}
-              to={`/blog/${key.href}`}
               style={articlesToShow === 2 && i === 2 ? { display: 'none' } : {}}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Blog>Blog</Blog>
-              <Title>{key.title}</Title>
-              <Subtitle className="subtitle">{key.subtitle}</Subtitle>
+              <Title>{key.fields.title}</Title>
+              <Subtitle className="subtitle">{key.fields.subtitle}</Subtitle>
               <div style={{ display: 'flex', margin: 'auto 0 0' }}>
-                <Category className="subtitle">{key.category}</Category>
-                <Date className="subtitle">{key.date}</Date>
+                <Category className="subtitle">{key.fields.category}</Category>
+                <Date className="subtitle">{key.fields.date}</Date>
               </div>
             </Article>
+            </Link>
           ))}
         </Articles>
       {/* </Fade> */}
