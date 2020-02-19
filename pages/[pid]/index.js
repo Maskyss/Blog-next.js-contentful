@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from "contentful";
-
+import Head from "next/head";
 import { Portal } from "react-portal";
 import Seo from "../../components/Seo";
 import Header from "../../components/Header";
@@ -11,6 +11,7 @@ import PreloaderComponent from "../../components/Preloader";
 
 import config from "../../utils/config.json";
 import { useRouter } from "next/router";
+const ogImg = "../static/4.jpg";
 
 import {
   Container,
@@ -19,9 +20,8 @@ import {
 } from "../../components/Article/styles";
 import Layout from "../../components/Layout";
 
-import options from '../../utils/contentful'
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
-
+import options from "../../utils/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 const twitter = "../../static/shareSvg/Twitter.svg";
 const facebook = "../../static/shareSvg/Facebook.svg";
@@ -57,7 +57,9 @@ const App = props => {
   const [description, setdescription] = useState("");
 
   useEffect(() => {
-    seturl(window.location.href)
+
+    seturl(window.location.href);
+
     if (localStorage.getItem("cookies") !== null) {
       setCookie(false);
     }
@@ -101,47 +103,7 @@ const App = props => {
     }
     setimage("http://" + str);
 
-  //  setDangerousHtml(
-     setDangerousHtml(documentToHtmlString(bodyArticle))
-    // const obj = Object.entries(JSON.parse(value)).map(key => {
-    //   const newKey = key[0].toString().replace(/(-[0-9]*)/, '');
-
-    //   switch (newKey) {
-    //     case 'title':
-    //       return `<div class='title'>${key[1]}</div>`;
-
-    //     case 'dateTime':
-    //       return `<div class='dateTime'>${key[1]}</div>`;
-    //     case 'h1':
-    //       return `<div class='h1'>${key[1]}</div>`;
-
-    //     case 'h2':
-    //       return `<div class='h2'>${key[1]}</div>`;
-    //     case 'paragraph':
-    //       return `<div class='paragraph'>${key[1]}</div>`;
-    //     case 'url':
-    //       const str = key[1].split('||', 2);
-    //       console.log(str);
-    //       return `<a class='underline' href=${str[1]}>${str[0]}</a>`;
-    //     case 'img':
-    //       return `<img class='image' src=${key[1]} ></img>`;
-    //     case 'cursive':
-    //       return `<div class='cursive'>${key[1]}</div>`;
-    //     case 'bolCurs':
-    //       return `<div class='boldCursive'>${key[1]}</div>`;
-    //     case 'bold':
-    //       return `<div class='bold'>${key[1]}</div>`;
-    //     case 'boldSpan':
-    //       return `<span class='bold'>${key[1]} </span>`;
-    //     case 'borderStart':
-    //       return `<div class='borderStart'>${key[1]}`;
-    //     case 'borderEnd':
-    //       return `</div>`;
-    //     default:
-    //       return `<div>${key[1]}</div>`;
-    //   }
-    // });
-    // setDangerousHtml(obj.toString().replace(/,</g, '<'));
+    setDangerousHtml(documentToHtmlString(bodyArticle));
   }, []);
   const setSessionStorage = () => {
     localStorage.setItem("cookies", "true");
@@ -199,14 +161,18 @@ const App = props => {
       <div>
         <Layout />
         <div style={preloader ? { opacity: 0 } : {}}>
-          <Seo image={image} title={seoTitle} description={description} url={url} />
-
+          {/* <Seo image={image} title={seoTitle} description={description} url={url} /> */}
+          <Head>
+            <title>{props.seoTitle|| seoTitle}</title>
+            <meta name="description" content={props.description|| description} />
+            <meta name="og:image" content={ogImg} />
+          </Head>
           <Header scrollToTop={scrollToTop} origin={origin} />
           <Container>
             <img className="image" src={image} />
             <div className="title">{title}</div>
             <div dangerouslySetInnerHTML={{ __html: dangerousHtml }} />
-            
+
             <BorderShared>
               <div className="h3"> Share it in social media</div>
               <div style={{ display: "flex" }}>
@@ -226,7 +192,10 @@ const App = props => {
               </div>
             </BorderShared>
           </Container>
-          <BlogComponent turnOffPreloader={turnOffPreloader} articles={props.entries.items}/>
+          <BlogComponent
+            turnOffPreloader={turnOffPreloader}
+            articles={props.entries.items}
+          />
 
           <Footer origin={origin} />
           {cookie && (
@@ -248,12 +217,25 @@ const App = props => {
   );
 };
 
-App.getInitialProps = async () => {
-  const entries = await client.getEntries({
+App.getInitialProps = async ({ req }) => {
+  // console.log(req.headers.referer, req.headers.host)
+  const href = req.headers.referer
+    .replace(req.headers.host, "")
+    .replace("http:///", "");
+
+  const entries = await 
+    client.getEntries({
     content_type: "blogPost"
   });
-
+  const { seoTitle, description, image } = entries.items.filter(key => {
+    // console.log(key.fields.href)
+    return key.fields.href === href;
+  })[0].fields;
+  
+  
+  // console.log(item.fields.seoTitle, ,'entries1')
+  // :image.fields.url
   // Inject in props of our screen component
-  return { entries };
+  return { entries, seoTitle, description, image : image.fields.url  };
 };
 export default App;

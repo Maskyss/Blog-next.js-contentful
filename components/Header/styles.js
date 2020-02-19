@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themes } from "../../theme/theme"
+import styled from "styled-components";
+import { themes } from "../../theme/theme";
 
 const HeaderCustom = styled.header`
   display: flex;
@@ -11,11 +11,11 @@ const HeaderCustom = styled.header`
   background: ${themes.colors.mainColor};
   left: 0;
   top: 0;
-
+  height: 10rem;
   padding: 2rem 10% 2rem 10%;
   width: 100%;
 
-  transition: height 0.5s;
+  transition: height 1s;
 
   z-index: 56;
 
@@ -47,7 +47,7 @@ const LinkHeader = styled.a`
   position: relative;
   z-index: 10;
   :after {
-    content: '';
+    content: "";
     width: 0px;
     margin-top: 5px;
 
@@ -196,5 +196,5 @@ export {
   ButtonEstimate,
   LinkImage,
   MenuButton,
-  ImgMenu,
+  ImgMenu
 };

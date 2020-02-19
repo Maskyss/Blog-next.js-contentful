@@ -71,10 +71,11 @@ const Header = ({ scrollToTop, origin, background, about }) => {
             ? {
                 paddingTop: '1rem',
                 paddingBottom: '1rem',
-                transition: 'padding 0.5s',
+                transition: 'padding 0.5s,height 0.5s',
                 zIndex: '56',
+                height:'8rem'
               }
-            : { transition: 'padding 0.1s ', background }
+            : {transition: 'padding 0.5s,height 0.5s', background ,height:'10rem'}
         }
       >
         <LinkImage href="/">
