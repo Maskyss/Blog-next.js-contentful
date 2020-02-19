@@ -163,8 +163,8 @@ const App = props => {
         <div style={preloader ? { opacity: 0 } : {}}>
           {/* <Seo image={image} title={seoTitle} description={description} url={url} /> */}
           <Head>
-            <title>{props.seoTitle|| seoTitle}</title>
-            <meta name="description" content={props.description|| description} />
+            <title>{seoTitle}</title>
+            <meta name="description" content={description} />
             <meta name="og:image" content={ogImg} />
           </Head>
           <Header scrollToTop={scrollToTop} origin={origin} />
@@ -218,24 +218,18 @@ const App = props => {
 };
 
 App.getInitialProps = async ({ req }) => {
-  // console.log(req.headers.referer, req.headers.host)
-  const href = req.headers.referer
-    .replace(req.headers.host, "")
-    .replace("http:///", "");
+ 
 
   const entries = await 
     client.getEntries({
     content_type: "blogPost"
   });
-  const { seoTitle, description, image } = entries.items.filter(key => {
-    // console.log(key.fields.href)
-    return key.fields.href === href;
-  })[0].fields;
+ 
   
   
   // console.log(item.fields.seoTitle, ,'entries1')
   // :image.fields.url
   // Inject in props of our screen component
-  return { entries, seoTitle, description, image : image.fields.url  };
+  return { entries };
 };
 export default App;
