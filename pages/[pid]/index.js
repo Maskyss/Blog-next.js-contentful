@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from "contentful";
-import Head from "next/head";
 import { Portal } from "react-portal";
 import Seo from "../../components/Seo";
 import Header from "../../components/Header";
@@ -10,8 +9,6 @@ import CookieComponent from "../../components/CookieComponent";
 import PreloaderComponent from "../../components/Preloader";
 
 import config from "../../utils/config.json";
-import { useRouter } from "next/router";
-const ogImg = "../static/4.jpg";
 
 import {
   Container,
@@ -20,7 +17,6 @@ import {
 } from "../../components/Article/styles";
 import Layout from "../../components/Layout";
 
-import options from "../../utils/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 const twitter = "../../static/shareSvg/Twitter.svg";
@@ -36,9 +32,6 @@ const client = createClient({
 });
 
 const App = props => {
-  const router = useRouter();
-  const { pid } = router.query;
-
   const [scrollToTop, setscrollToTop] = useState(false);
   const [preloader, setPreloader] = useState(true);
   const [cookie, setCookie] = useState(true);
@@ -47,26 +40,13 @@ const App = props => {
   const [currentArray, setCurrentArray] = useState([]);
   const [currentLink, setCurrentLink] = useState("");
   const [origin, setOrigin] = useState("");
-  const [hrefLoad, sethrefLoad] = useState("");
-  const [image, setimage] = useState("");
-
-  const [seoTitle, setseoTitle] = useState("");
-  const [title, settitle] = useState("");
-  const [url, seturl] = useState("");
-
-  const [description, setdescription] = useState("");
 
   useEffect(() => {
-
-    seturl(window.location.href);
 
     if (localStorage.getItem("cookies") !== null) {
       setCookie(false);
     }
-    const articles = props.entries.items;
 
-    const href = pid;
-    sethrefLoad(pid);
     const { body } = document;
     setOrigin(window.location.origin);
 
@@ -83,28 +63,9 @@ const App = props => {
 
     setCurrentLink(window.location.href);
 
-    const {
-      body: bodyArticle,
-      seoTitle,
-      title,
-      description,
-      image
-    } = articles.filter(key => {
-      return key.fields.href === href;
-    })[0].fields;
-
-    setdescription(description);
-    setseoTitle(seoTitle);
-    settitle(title);
-
-    var str = image.fields.file.url;
-    while (str.indexOf("/") == 0) {
-      str = str.substring(1);
-    }
-    setimage("http://" + str);
-
-    setDangerousHtml(documentToHtmlString(bodyArticle));
+    setDangerousHtml(documentToHtmlString(props.entries1.bodyArticle));
   }, []);
+
   const setSessionStorage = () => {
     localStorage.setItem("cookies", "true");
     setCookie(false);
@@ -161,16 +122,16 @@ const App = props => {
       <div>
         <Layout />
         <div style={preloader ? { opacity: 0 } : {}}>
-          {/* <Seo image={image} title={seoTitle} description={description} url={url} /> */}
-          <Head>
-            <title>{seoTitle}</title>
-            <meta name="description" content={description} />
-            <meta name="og:image" content={ogImg} />
-          </Head>
+          <Seo
+            image={props.entries1.image}
+            title={props.entries1.seoTitle}
+            description={props.entries1.description}
+          />
+
           <Header scrollToTop={scrollToTop} origin={origin} />
           <Container>
-            <img className="image" src={image} />
-            <div className="title">{title}</div>
+            <img className="image" src={props.entries1.image} />
+            <div className="title">{props.entries1.title}</div>
             <div dangerouslySetInnerHTML={{ __html: dangerousHtml }} />
 
             <BorderShared>
@@ -216,20 +177,46 @@ const App = props => {
     </>
   );
 };
+const convertPost = rawData => {
+  const rawPost = rawData.fields;
 
-App.getInitialProps = async ({ req }) => {
- 
+  const rawdescription = rawPost.description || null;
+  const rawtitle = rawPost.title || null;
+  const rawseoTitle = rawPost.seoTitle || null;
+  const rawimage = rawPost.image || null;
+  var str = rawimage.fields.file.url;
 
-  const entries = await 
-    client.getEntries({
+  while (str.indexOf("/") == 0) {
+    str = str.substring(1);
+  }
+  const image = "http://" + str;
+  const rawbody = rawPost.body || null;
+
+  return {
+    description: rawdescription,
+    title: rawtitle,
+    bodyArticle: rawbody,
+    seoTitle: rawseoTitle,
+    image: image
+  };
+};
+
+App.getInitialProps = async ({ query }) => {
+  const entries1 = await client
+    .getEntries({
+      content_type: "blogPost",
+      "fields.href": query.pid
+    })
+    .then(entries => {
+      if (entries && entries.items && entries.items.length > 0) {
+        const post = convertPost(entries.items[0]);
+        return post;
+      }
+      return [];
+    });
+  const entries = await client.getEntries({
     content_type: "blogPost"
   });
- 
-  
-  
-  // console.log(item.fields.seoTitle, ,'entries1')
-  // :image.fields.url
-  // Inject in props of our screen component
-  return { entries };
+  return { entries1, entries };
 };
 export default App;

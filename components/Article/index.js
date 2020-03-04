@@ -19,9 +19,8 @@ import {
 } from "../../components/Article/styles";
 import Layout from "../../components/Layout";
 
-import options from '../../utils/contentful'
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
-
+import options from "../../utils/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 
 const twitter = "../../static/shareSvg/Twitter.svg";
 const facebook = "../../static/shareSvg/Facebook.svg";
@@ -29,8 +28,7 @@ const mailto = "../../static/shareSvg/Mailto.svg";
 const telegram = "../../static/shareSvg/Telegram.svg";
 const whatsapp = "../../static/shareSvg/WhatsApp.png";
 
-
-const Article = ({articles}) => {
+const Article = ({ articles }) => {
   const router = useRouter();
   const { pid } = router.query;
 
@@ -52,11 +50,11 @@ const Article = ({articles}) => {
   const [description, setdescription] = useState("");
 
   useEffect(() => {
-    seturl(window.location.href)
+    seturl(window.location.href);
     if (localStorage.getItem("cookies") !== null) {
       setCookie(false);
     }
-    console.log(articles)
+    console.log(articles);
     const articles = articles.entries.items;
 
     const href = pid;
@@ -97,8 +95,8 @@ const Article = ({articles}) => {
     }
     setimage("http://" + str);
 
-  //  setDangerousHtml(
-     setDangerousHtml(documentToHtmlString(bodyArticle))
+    //  setDangerousHtml(
+    setDangerousHtml(documentToHtmlString(bodyArticle));
     // const obj = Object.entries(JSON.parse(value)).map(key => {
     //   const newKey = key[0].toString().replace(/(-[0-9]*)/, '');
 
@@ -195,14 +193,19 @@ const Article = ({articles}) => {
       <div>
         <Layout />
         <div style={preloader ? { opacity: 0 } : {}}>
-          <Seo image={image} title={seoTitle} description={description} url={url} />
+          <Seo
+            image={image}
+            title={seoTitle}
+            description={description}
+            url={url}
+          />
 
           <Header scrollToTop={scrollToTop} origin={origin} />
           <Container>
             <img className="image" src={image} />
             <div className="title">{title}</div>
             <div dangerouslySetInnerHTML={{ __html: dangerousHtml }} />
-            
+
             <BorderShared>
               <div className="h3"> Share it in social media</div>
               <div style={{ display: "flex" }}>
@@ -222,7 +225,10 @@ const Article = ({articles}) => {
               </div>
             </BorderShared>
           </Container>
-          <BlogComponent turnOffPreloader={turnOffPreloader} articles={articles.entries.items}/>
+          <BlogComponent
+            turnOffPreloader={turnOffPreloader}
+            articles={articles.entries.items}
+          />
 
           <Footer origin={origin} />
           {cookie && (
@@ -243,6 +249,15 @@ const Article = ({articles}) => {
     </>
   );
 };
+App.getInitialProps = async ({ req }) => {
+  const entries = await client.getEntries({
+    content_type: "blogPost"
+  });
 
+  // console.log(item.fields.seoTitle, ,'entries1')
+  // :image.fields.url
+  // Inject in props of our screen component
+  return { entries };
+};
 
 export default Article;
