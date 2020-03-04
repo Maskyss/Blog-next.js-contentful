@@ -236,6 +236,8 @@ const LinkMedia = styled.a`
 
   img {
     transition: filter 0.5s;
+    width: 3rem;
+    height: 3rem;
   }
   @media ${themes.device.laptopL} {
     width: 4.5rem;
