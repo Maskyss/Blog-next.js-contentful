@@ -1,6 +1,4 @@
 import React from "react";
-import Head from "next/head";
-const favicon = "../../static/logoMini.png";
 import { NextSeo } from "next-seo";
 
 function Seo({ description, title, image }) {

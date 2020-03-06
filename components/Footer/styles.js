@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themes } from "../../theme/theme"
+import styled from "styled-components";
+import { themes } from "../../theme/theme";
 
 const FooterCustom = styled.footer`
   background: ${themes.colors.mainColor};
@@ -7,14 +7,14 @@ const FooterCustom = styled.footer`
 
 const WithLogo = styled.div`
   display: flex;
-  height: 35rem;
+  height: 40rem;
   width: 100%;
   padding: 5rem 10% 0;
   position: relative;
   z-index: 20;
   background: ${themes.colors.mainColor};
   @media ${themes.device.laptopL} {
-    height: 29rem;
+    height: 37rem;
     padding: 5rem 15% 0;
   }
   @media ${themes.device.laptopS} {
@@ -69,7 +69,7 @@ const LinkFooter = styled.a`
   color: ${themes.colors.colorWhite};
 
   :after {
-    content: '';
+    content: "";
     width: 0px;
     margin-top: 5px;
 
@@ -160,6 +160,11 @@ const ReviewPlatform = styled.div`
     position: relative;
     left: -8rem;
   }
+  @media (max-width:600px) {
+    left: -10rem;
+    transform: scale(0.6);
+
+  }
   @media ${themes.device.tabletS} {
     left: 0;
     transform: scale(1);
@@ -199,22 +204,22 @@ const HrCustom = styled.hr`
 const WithMedia = styled.div`
   display: flex;
   width: 100%;
-  padding: 0 10%;
-  height: 10rem;
+  padding: 0 10% 9rem;
+  height: 15rem;
   align-items: center;
   @media ${themes.device.laptopL} {
-    padding: 0 15%;
+    padding: 0 15% 9rem;
   }
   @media ${themes.device.laptopS} {
-    padding: 0 10%;
+    padding: 0 10% 9rem;
   }
   @media (max-width: 1125px) {
-    padding: 0 5%;
+    padding: 0 5% 9rem;
   }
   @media ${themes.device.laptop} {
     flex-direction: column;
     height: auto;
-    padding-bottom: 2rem;
+    padding-bottom: 7rem;
   }
 `;
 const LinksMedia = styled.div`
@@ -233,11 +238,12 @@ const LinkMedia = styled.a`
   display: flex;
   align-items: center;
   justify-content: space-around;
-
+  img {
+    height: 3rem;
+    width: 3rem;
+  }
   img {
     transition: filter 0.5s;
-    width: 3rem;
-    height: 3rem;
   }
   @media ${themes.device.laptopL} {
     width: 4.5rem;
@@ -309,6 +315,64 @@ const PrivacyPolicy = styled.a`
     margin-bottom: 4rem;
   }
 `;
+const Button = styled.a`
+  display: flex;
+  height:6rem;
+  width:20rem;
+  justify-content: center;
+  align-items: center;
+  background: ${themes.colors.colorBlue1};
+  color: ${themes.colors.colorWhite};
+
+  transition: background 0.5s;
+  font-size: 1.7rem;
+  font-weight: 600;
+
+  :hover {
+    background: ${themes.colors.colorBlue2};
+  }
+  
+  @media ${themes.device.laptopL} {
+    font-size: 1.4rem;
+    height: 5.5rem;
+
+  }
+  @media ${themes.device.tabletM} {
+    width:100%;
+
+  }
+  @media ${themes.device.tabletS} {
+    width:20rem;
+margin:auto;
+  }
+`;
+const BorderDIV = styled.div`
+
+display: flex;
+@media ${themes.device.tabletS} {
+
+  flex-direction: column;
+}
+`
+const MiniText = styled.div`
+font-style: normal;
+font-weight: 300;
+font-size: 1.4rem;
+line-height: 171.7%;
+color: #717171;
+margin:  1rem 0;
+@media ${themes.device.tabletS} {
+  font-size: 1.2rem;
+}
+
+`
+const DIVAddress = styled.div`
+margin-right: 10%;
+@media ${themes.device.tabletS} {
+  margin-right: 0;
+
+}
+`
 export {
   LinkFooter,
   LinksFooter,
@@ -326,5 +390,6 @@ export {
   LinksMedia,
   LinkMedia,
   Copyright,
-  PrivacyPolicy,
+  PrivacyPolicy,Button,BorderDIV,MiniText,DIVAddress
+
 };

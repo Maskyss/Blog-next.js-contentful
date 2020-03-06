@@ -1,6 +1,24 @@
-import styled from 'styled-components';
-import { Button } from '../../theme/mainStyles';
-import { themes } from "../../theme/theme"
+import styled from "styled-components";
+import { themes } from "../../theme/theme";
+
+const Button = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${themes.colors.colorBlue1};
+  color: ${themes.colors.colorWhite};
+
+  transition: background 0.5s;
+  font-size: 1.7rem;
+  font-weight: 600;
+
+  :hover {
+    background: ${themes.colors.colorBlue2};
+  }
+  @media ${themes.device.laptopL} {
+    font-size: 1.4rem;
+  }
+`;
 
 const AnimationDiv = styled.div`
   position: relative;
@@ -27,7 +45,7 @@ const Container = styled.div`
   left: 0;
   top: 0;
   z-index: 56;
-  background: ${ themes.colors.mainColor};
+  background: ${themes.colors.mainColor};
   overflow: hidden;
 
   transition: opacity 0.1s, height 1s;
@@ -43,23 +61,23 @@ const LinkHeader = styled.a`
   line-height: 132.5%;
   text-align: center;
   width: max-content;
-  color: ${ themes.colors.colorWhite};
+  color: ${themes.colors.colorWhite};
   :after {
-    content: '';
+    content: "";
     width: 0px;
     margin-top: 5px;
 
     height: 1px;
     display: block;
 
-    background: ${ themes.colors.colorWhite};
+    background: ${themes.colors.colorWhite};
     transition: 300ms;
   }
   :hover:after {
     width: 100%;
   }
 
-  @media ${ themes.device.mobileL} {
+  @media ${themes.device.mobileL} {
     font-size: 2.4rem;
   }
   @media (max-height: 390px) {
@@ -107,5 +125,5 @@ export {
   LinkHeader,
   LinksHeader,
   AnimationBlock,
-  AnimationDiv,
+  AnimationDiv
 };

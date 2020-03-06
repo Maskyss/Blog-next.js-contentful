@@ -93,13 +93,11 @@ const Article = styled.div`
   height: 50rem;
   width: 32%;
   margin-right: 2rem;
-  background: ${themes.colors.colorGray1};
+  background-size: cover;
+  background-position: center;
 
   :hover {
-    background: ${themes.colors.colorBlue1};
-    .subtitle {
-      color: ${themes.colors.colorWhite};
-    }
+    filter: brightness(0.8);
   }
   @media ${themes.device.laptopL} {
     width: 48%;
@@ -146,7 +144,7 @@ const Subtitle = styled.div`
   font-weight: 300;
   font-size: 1.7rem;
   line-height: 2.6rem;
-  color: ${themes.colors.colorGray5};
+  color: ${themes.colors.colorWhite};
 
   margin: auto 0 20%;
   @media (max-width: 1110px) {
@@ -161,7 +159,7 @@ const Category = styled.div`
   font-size: 1.7rem;
   line-height: 2.6rem;
   width: 50%;
-  color: ${themes.colors.colorGray5};
+  color: ${themes.colors.colorWhite};
 
   @media ${themes.device.mobileM} {
     font-size: 1.4rem;
@@ -173,7 +171,7 @@ const Date = styled.div`
   line-height: 2.6rem;
   width: 50%;
   text-align: right;
-  color: ${themes.colors.colorGray5};
+  color: ${themes.colors.colorWhite};
 
   @media (max-width: 1110px) {
     width: 70%;

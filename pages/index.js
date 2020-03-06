@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { Portal } from "react-portal";
+
 import { createClient } from "contentful";
 import config from "../utils/config.json";
-import { Portal } from "react-portal";
 
 import Seo from "../components/Seo";
 import Articles from "../components/Articles";
-
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PreloaderComponent from "../components/Preloader";
 import CookieComponent from "../components/CookieComponent";
 import Layout from "../components/Layout";
 
+import { convertPost } from "../utils/functions";
 const ogImg = "../static/4.jpg";
 
-// Instantiate the app client
 const client = createClient({
   space: config.space,
   accessToken: config.accessToken
@@ -25,7 +25,6 @@ const App = props => {
   const [scrollToTop, setscrollToTop] = useState(false);
   const [origin, setOrigin] = useState("");
   const [cookie, setCookie] = useState(true);
-  const [articlesArr, setArticlesArr] = useState([]);
   useEffect(() => {
     const { body } = document;
 
@@ -39,7 +38,6 @@ const App = props => {
     setTimeout(() => {
       turnOffPreloader();
     }, 1500);
-    setArticlesArr(props.entries.items);
   }, []);
 
   const _onScroll = () => {
@@ -77,7 +75,7 @@ const App = props => {
 
           <Header scrollToTop={scrollToTop} origin={origin} />
 
-          <Articles articlesArr={articlesArr} />
+          <Articles articlesArr={props.entries} />
           <Footer origin={origin} />
           {cookie && (
             <Portal>
@@ -88,7 +86,7 @@ const App = props => {
             </Portal>
           )}
         </div>
-      </div>{" "}
+      </div>
       {preloader && (
         <Portal>
           <PreloaderComponent />
@@ -97,12 +95,20 @@ const App = props => {
     </>
   );
 };
-App.getInitialProps = async () => {
-  const entries = await client.getEntries({
-    content_type: "blogPost"
-  });
 
-  // Inject in props of our screen component
+App.getInitialProps = async () => {
+  const entries = await client
+    .getEntries({
+      content_type: "blogPost"
+    })
+    .then(entries => {
+      if (entries && entries.items && entries.items.length > 0) {
+        const blogPosts = entries.items.map(entry => convertPost(entry));
+        return blogPosts;
+      }
+      return [];
+    });
+
   return { entries };
 };
 

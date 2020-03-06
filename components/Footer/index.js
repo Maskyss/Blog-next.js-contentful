@@ -13,6 +13,8 @@ import {
   LinkReview,
   HrCustom,
   WithLogo,
+  Button,BorderDIV,MiniText,DIVAddress
+
 } from './styles';
 
 import Media from './indexMedia';
@@ -50,14 +52,27 @@ const Footer = ({ origin }) => {
               <LinkFooter href={`${origin}/blog/`}>Blog</LinkFooter>
             </LinksFooter>
             <WithAddress>
-              <GenQuestion>General questions:</GenQuestion>
-              <Address>
-                {'Kyiv, Peremogi Avenue 26, office 116' +
-                  '\n\n' +
-                  '+38 (097) 461-58-57' +
-                  '\n\n' +
-                  'team@fulcrum.rocks'}
-              </Address>
+              
+            <BorderDIV> 
+                <DIVAddress >
+                  <GenQuestion>General questions:</GenQuestion>
+                  <Address>
+                    {"Kyiv, Peremogi Avenue 26, office 116" +
+                      "\n\n" +
+                      "+38 (097) 461-58-57" +
+                      "\n\n" +
+                      "hello@fulcrum.rocks"}
+                  </Address>
+                </DIVAddress>
+                <div>
+                  <GenQuestion>Lean Canvas:</GenQuestion>
+                  <MiniText>
+                    Lean Canvas is an adapted version of Business Canvas model
+                    by Alex Osterwalder.
+                  </MiniText>
+                  <Button href={origin}>Create</Button>
+                </div>
+              </BorderDIV>
               <ReviewPlatform>
                 {links.map((key, i) => (
                   <LinkReview

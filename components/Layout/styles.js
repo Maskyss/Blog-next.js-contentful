@@ -101,17 +101,7 @@ img {
     padding: 2rem;
     border-left: 2px solid #1b85e5;
   }
-//   i {
-//     font-style: italic;
-//     color: #4e4e4e;
-//     background: #f8f8f8;
-//     padding: 2rem;
-//     border-left: 2px solid #1b85e5;
-//   }
-//   .boldCursive {
-//     font-weight: bold;
-//     font-style: italic;
-//   }
+
   b{
     font-weight: bold;
   }     

@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import lottie from "lottie-web";
+
 import Layout from "../../components/Layout";
 import Seo from "../../components/Seo";
+
 import {
   LinkImage,
   AnimationDiv,
@@ -12,7 +14,6 @@ import {
 } from "./styles";
 
 import animation from "../../static/animations/BlackArchimed.json";
-
 const Logo = "../../static/Logo.svg";
 
 const Page404 = () => {
@@ -30,7 +31,7 @@ const Page404 = () => {
   }, []);
   return (
     <>
-    <Layout/>
+      <Layout />
       <Seo
         title="404: Not found"
         description="Discover the latest stories & news from Fulcrum."
@@ -45,7 +46,7 @@ const Page404 = () => {
       <Title>Looks like you got lost</Title>
       <Subtitle>404 page</Subtitle>
       <ButtonBack href="/">Back</ButtonBack>
-      </>
+    </>
   );
 };
 

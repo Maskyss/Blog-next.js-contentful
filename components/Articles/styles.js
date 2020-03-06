@@ -34,6 +34,7 @@ cursor:pointer;
   width: 60%;
   margin: 0 1%;
   margin-bottom: 5rem;
+  
   @media ${themes.device.tablet} {
     min-width: 40rem;
   }
@@ -46,6 +47,8 @@ const ArticlePrim = styled(Art)`
   margin: 0 1%;
   cursor:pointer;
   width: 30%;
+  background: #1e1e1e;
+
   @media ${themes.device.laptopL} {
     width: 35%;
     height: 45rem;

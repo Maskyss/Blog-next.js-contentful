@@ -43,19 +43,19 @@ const Articles = ({ articlesArr }) => {
       }
     });
     setArray(arr);
-    console.log(articlesArr);
+
   }, [articlesArr]);
   return (
     <Container>
       {articlesArr.map((key, i) => {
-        const { href, image, title, subtitle, date, category } = key.fields;
+        const { href, image, title, subtitle, date, category } = key;
 
         return mobile ? (
           i % 2 === 0 ? (
             <Link href={encodeUrl(`/${href}`)} key={i}>
               <Article>
                 <>
-                  <Image src={image.fields.file.url} />
+                  <Image src={image} />
                   <Title>{title}</Title>
                   <Subtitle>{subtitle}</Subtitle>
                 </>
@@ -78,7 +78,7 @@ const Articles = ({ articlesArr }) => {
           <Link href={encodeUrl(`/${href}`)} key={i}>
             <Article>
               <>
-                <Image src={image.fields.file.url} />
+                <Image src={image} />
                 <Title>{title}</Title>
                 <Subtitle>{subtitle}</Subtitle>
               </>

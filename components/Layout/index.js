@@ -1,7 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
 import GlobalStyle from "./styles";
-
 
 const Layout = () => {
   return (
@@ -18,19 +16,19 @@ const Layout = () => {
           }}
         />
       </noscript>
-
-    
-      {/* <script
+      <script
         type="text/javascript"
         id="hs-script-loader"
         async
         defer
         src="//js.hs-scripts.com/6956063.js"
-      /> */}
+      />
+      <link
+        href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap"
+        rel="stylesheet"
+      />
     </>
   );
 };
-
-
 
 export default Layout;
