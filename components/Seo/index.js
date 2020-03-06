@@ -1,6 +1,7 @@
 import React from "react";
 import { NextSeo } from "next-seo";
 
+
 function Seo({ description, title, image }) {
   return (
     <NextSeo
